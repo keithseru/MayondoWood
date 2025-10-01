@@ -42,7 +42,7 @@ def create_product(request):
                 'title': 'Create Product',
                 'product': None 
             }
-    return render(request, 'products/create_product', context)
+    return render(request, 'products/create_product.html', context)
 
 # Update product
 @user_passes_test(is_manager, login_url='login_user')
@@ -97,7 +97,7 @@ def create_unit(request):
                'form' : form,
                'title' : "Unit",
             }
-    return render(request, 'products/create_category', context)
+    return render(request, 'products/create_category.html', context)
 
 @user_passes_test(is_manager, login_url="login_user")
 def delete_product(request, pk):
