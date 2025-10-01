@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block sidebar %}
+  {% include "includes/sidebar.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h2>{{ title }}</h2>
+
+  <div class="alert alert-warning mt-4">
+    <strong>Are you sure you want to delete this product?</strong><br>
+    <span class="text-danger">{{ product.name }}</span> — {{ product.category.name }} @ {{ product.price }}
+  </div>
+
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Yes, Delete</button>
+    <a href="{% url 'product_list' %}" class="btn btn-secondary">Cancel</a>
+  </form>
+</div>
+{% endblock %}

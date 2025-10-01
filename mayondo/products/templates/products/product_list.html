@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+  <h2>Product Inventory</h2>
+
+  {% if request.user.role == "MANAGER" %}
+    <a href="{% url 'create_product' %}" class="btn btn-primary mb-3">Add Product</a>
+    <a href="{% url 'create_category' %}" class="btn btn-secondary mb-3">Add Category</a>
+    <a href="{% url 'create_unit' %}" class="btn btn-secondary mb-3">Add Unit</a>
+  {% endif %}
+
+  <table class="table table-bordered table-hover">
+    <thead class="table-light">
+      <tr>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Unit</th>
+        <th>Price</th>
+        <th>Description</th>
+        {% if request.user.role == "MANAGER" %}
+          <th>Actions</th>
+        {% endif %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for product in products %}
+        <tr>
+          <td>{{ product.name }}</td>
+          <td>{{ product.category.name }}</td>
+          <td>{{ product.unit.name }}</td>
+          <td>{{ product.price }}</td>
+          <td>{{ product.description }}</td>
+          {% if request.user.role == "MANAGER" %}
+            <td>
+                <a href="{% url 'update_product' product.pk %}" class="btn btn-sm btn-outline-primary">Edit</a>
+                <a href="{% url 'product_detail' product.pk %}" class="btn btn-sm btn-outline-info">Details</a>
+                <a href="{% url 'delete_product' product.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>
+            </td>
+
+            </td>
+          {% endif %}
+        </tr>
+      {% empty %}
+        <tr><td colspan="6">No products available.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

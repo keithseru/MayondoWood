@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block sidebar %}
+  {% include "includes/sidebar.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h2>{{ title }}</h2>
+
+  <div class="card mt-3">
+    <div class="card-body">
+      <h4 class="card-title">{{ product.name }}</h4>
+      <p class="card-text"><strong>Category:</strong> {{ product.category.name }}</p>
+      <p class="card-text"><strong>Unit:</strong> {{ product.unit.name }}</p>
+      <p class="card-text"><strong>Price:</strong> {{ product.price }}</p>
+      <p class="card-text"><strong>Description:</strong> {{ product.description|default:"No description provided." }}</p>
+    </div>
+  </div>
+
+  <a href="{% url 'product_list' %}" class="btn btn-secondary mt-3">Back to Inventory</a>
+
+  {% if request.user.role == "MANAGER" %}
+    <a href="{% url 'update_product' product.pk %}" class="btn btn-primary mt-3">Edit Product</a>
+    <a href="{% url 'delete_product' product.pk %}" class="btn btn-danger">Delete Product</a>
+  {% endif %}
+</div>
+{% endblock %}
