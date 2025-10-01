@@ -30,7 +30,7 @@ def login_user(request):
         'form' : form,
         'title' : 'Login'
         }
-    return render(request, 'login.html', context) 
+    return render(request, 'users/login.html', context) 
 
 #Logout View
 @login_required
