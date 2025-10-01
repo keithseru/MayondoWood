@@ -1,0 +1,147 @@
+<div class="bg-dark text-white vh-100 p-3 sidebar">
+  <h5 class="mb-4">Dashboard</h5>
+
+  <ul class="nav flex-column">
+    <!-- All roles see Dashboard -->
+    <li class="nav-item mb-2">
+      <a
+        href="{% url 'dashboard_router' %}"
+        class="nav-link text-white {% if request.resolver_match.url_name == 'dashboard_router' %}active{% endif %}"
+      >
+        <i class="fas fa-chart-line me-2"></i> Dashboard
+      </a>
+    </li>
+
+    {% if request.user.role == "MANAGER" %}
+    <!-- Manager-only links -->
+    <li class="nav-item mb-2">
+      <a
+        href="{% url 'create_staff' %}"
+        class="nav-link text-white {% if request.resolver_match.url_name == 'create_staff' %}active{% endif %}"
+      >
+        <i class="fas fa-user-plus me-2"></i> Create Staff
+      </a>
+    </li>
+    <li class="nav-item mb-2">
+      <a
+        href="{% url 'staff_list' %}"
+        class="nav-link text-white {% if request.resolver_match.url_name == 'staff_list' %}active{% endif %}"
+      >
+        <i class="fas fa-users me-2"></i> Staff List
+      </a>
+    </li>
+    <li class="nav-item mb-2">
+      <a
+        href="{% url 'sales_dashboard' %}"
+        class="nav-link text-white {% if request.resolver_match.url_name == 'sales_dashboard' %}active{% endif %}"
+      >
+        <i class="fas fa-dollar-sign me-2"></i> Sales
+      </a>
+    </li>
+    <li class="nav-item mb-2">
+      <a
+        href="{% url 'stock_dashboard' %}"
+        class="nav-link text-white {% if request.resolver_match.url_name == 'stock_dashboard' %}active{% endif %}"
+      >
+        <i class="fas fa-boxes me-2"></i> Stock
+      </a>
+    </li>
+    <li class="nav-item mb-2">
+      <a
+        href="{% url 'customer_list' %}"
+        class="nav-link text-white {% if request.resolver_match.url_name == 'customer_list' %}active{% endif %}"
+      >
+        <i class="fas fa-address-book me-2"></i> Customers
+      </a>
+    </li>
+    <li class="nav-item mb-2">
+      <a
+        href="{% url 'supplier_list' %}"
+        class="nav-link text-white {% if request.resolver_match.url_name == 'supplier_list' %}active{% endif %}"
+      >
+        <i class="fas fa-truck me-2"></i> Suppliers
+      </a>
+    </li>
+    <li class="nav-item mb-2">
+      <a
+        href="{% url 'manager_reports' %}"
+        class="nav-link text-white {% if request.resolver_match.url_name == 'manager_reports' %}active{% endif %}"
+      >
+        <i class="fas fa-chart-pie me-2"></i> Reports
+      </a>
+    </li>
+    {% elif request.user.role == "SALES" %}
+    <!-- Sales-only links -->
+    <li class="nav-item mb-2">
+      <a
+        href="{% url 'sales_dashboard' %}"
+        class="nav-link text-white {% if request.resolver_match.url_name == 'sales_dashboard' %}active{% endif %}"
+      >
+        <i class="fas fa-dollar-sign me-2"></i> Sales
+      </a>
+    </li>
+    <li class="nav-item mb-2">
+      <a
+        href="{% url 'customer_list' %}"
+        class="nav-link text-white {% if request.resolver_match.url_name == 'customer_list' %}active{% endif %}"
+      >
+        <i class="fas fa-address-book me-2"></i> Customers
+      </a>
+    </li>
+    <li class="nav-item mb-2">
+      <a
+        href="{% url 'sales_reports' %}"
+        class="nav-link text-white {% if request.resolver_match.url_name == 'sales_reports' %}active{% endif %}"
+      >
+        <i class="fas fa-chart-pie me-2"></i> Reports
+      </a>
+    </li>
+    {% elif request.user.role == "INVENTORY" %}
+    <!-- Inventory-only links -->
+    <li class="nav-item mb-2">
+      <a
+        href="{% url 'stock_dashboard' %}"
+        class="nav-link text-white {% if request.resolver_match.url_name == 'stock_dashboard' %}active{% endif %}"
+      >
+        <i class="fas fa-boxes me-2"></i> Stock
+      </a>
+    </li>
+    <li class="nav-item mb-2">
+      <a
+        href="{% url 'order_list' %}"
+        class="nav-link text-white {% if request.resolver_match.url_name == 'order_list' %}active{% endif %}"
+      >
+        <i class="fas fa-clipboard-list me-2"></i> Orders
+      </a>
+    </li>
+    <li class="nav-item mb-2">
+      <a
+        href="{% url 'supplier_list' %}"
+        class="nav-link text-white {% if request.resolver_match.url_name == 'supplier_list' %}active{% endif %}"
+      >
+        <i class="fas fa-truck me-2"></i> Suppliers
+      </a>
+    </li>
+    <li class="nav-item mb-2">
+      <a
+        href="{% url 'inventory_reports' %}"
+        class="nav-link text-white {% if request.resolver_match.url_name == 'inventory_reports' %}active{% endif %}"
+      >
+        <i class="fas fa-chart-pie me-2"></i> Reports
+      </a>
+    </li>
+    {% endif %}
+  </ul>
+
+  <hr class="text-secondary" />
+  <div class="mt-3 mb-4">
+    <i class="fas fa-user-tag me-2"></i> Role:
+    <strong>{{ request.user.role }}</strong>
+  </div>
+
+  <div class="mt-auto">
+    <a href="{% url 'logout_user' %}" class="nav-link text-white">
+      <i class="fas fa-sign-out-alt me-2"></i> Logout
+    </a>
+  </div>
+</div>
