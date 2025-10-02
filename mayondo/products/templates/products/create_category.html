@@ -2,13 +2,21 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<div class="container">
-  <h2>Create {{ title }}</h2>
+<div class="container mt-4">
+  <h2>{{ title }}</h2>
+
   <form method="post">
     {% csrf_token %}
-    {{ form | crispy }}
+    {{ form|crispy }}
     <button type="submit" class="btn btn-success">Save</button>
-    <a href="{% url 'create_product' %}" class="btn btn-secondary">Back to Products</a>
+
+    {% if title == "Category" %}
+      <a href="{% url 'create_product' %}" class="btn btn-secondary">Back to Products</a>
+    {% elif title == "Unit" %}
+      <a href="{% url 'unit_list' %}" class="btn btn-secondary">Back to Units</a>
+    {% else %}
+      <a href="{% url 'product_list' %}" class="btn btn-secondary">Back to Inventory</a>
+    {% endif %}
   </form>
 </div>
 {% endblock %}

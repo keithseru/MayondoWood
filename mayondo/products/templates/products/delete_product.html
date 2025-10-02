@@ -1,12 +1,17 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container">
+<div class="container mt-4">
   <h2>{{ title }}</h2>
 
   <div class="alert alert-warning mt-4">
     <strong>Are you sure you want to delete this product?</strong><br>
-    <span class="text-danger">{{ product.name }}</span> — {{ product.category.name }} @ {{ product.price }}
+    <span class="text-danger">{{ product.name }}</span> — {{ product.category.name }}
+    {% with first_variant=product.variants.first %}
+      {% if first_variant %}
+        @ {{ first_variant.price }}
+      {% endif %}
+    {% endwith %}
   </div>
 
   <form method="post">

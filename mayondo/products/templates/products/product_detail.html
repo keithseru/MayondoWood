@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-
 {% block content %}
 <div class="container">
   <h2>{{ title }}</h2>
@@ -9,16 +8,47 @@
       <h4 class="card-title">{{ product.name }}</h4>
       <p class="card-text"><strong>Category:</strong> {{ product.category.name }}</p>
       <p class="card-text"><strong>Unit:</strong> {{ product.unit.name }}</p>
-      <p class="card-text"><strong>Price:</strong> {{ product.price }}</p>
+      <p class="card-text"><strong>Supplier:</strong> {{ product.supplier.name }}</p>
       <p class="card-text"><strong>Description:</strong> {{ product.description|default:"No description provided." }}</p>
     </div>
   </div>
+
+  <h4 class="mt-4">Variants</h4>
+  <table class="table table-bordered">
+    <thead class="table-light">
+      <tr>
+        <th>Variant Name</th>
+        <th>Product ID</th>
+        <th>Price</th>
+        <th>Stock Quantity</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for variant in product.variants.all %}
+      <tr>
+        <td>{{ variant.variant_name }}</td>
+        <td>{{ variant.price }}</td>
+        <td>{{ variant.stock_quantity }}</td>
+        <td>
+          {% if variant.is_active %}
+            <span class="badge bg-success">Active</span>
+          {% else %}
+            <span class="badge bg-secondary">Inactive</span>
+          {% endif %}
+        </td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="5">No variants found.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
 
   <a href="{% url 'product_list' %}" class="btn btn-secondary mt-3">Back to Inventory</a>
 
   {% if request.user.role == "MANAGER" %}
     <a href="{% url 'update_product' product.pk %}" class="btn btn-primary mt-3">Edit Product</a>
-    <a href="{% url 'delete_product' product.pk %}" class="btn btn-danger">Delete Product</a>
+    <a href="{% url 'delete_product' product.pk %}" class="btn btn-danger mt-3">Delete Product</a>
   {% endif %}
 </div>
 {% endblock %}

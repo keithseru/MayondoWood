@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<h2>Confirm Delivery for Order #{{ order.id }}</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ formset.management_form }}
+    {% for form in formset %}
+        <div class="card mb-2 p-3">
+            {{ form|crispy }}
+        </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-success">Confirm Delivery</button>
+</form>
+{% endblock %}

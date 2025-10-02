@@ -4,9 +4,19 @@
 {% block content %}
 <div class="container mt-4">
   <h2>{% if product %}Update{% else %}Create{% endif %} Product</h2>
+
   <form method="post">
     {% csrf_token %}
-    {{ form | crispy }}
+    {{ form|crispy }}
+
+    <h4 class="mt-4">Variants</h4>
+    {{ formset.management_form }}
+    {% for variant_form in formset %}
+      <div class="card mb-3 p-3">
+        {{ variant_form|crispy }}
+      </div>
+    {% endfor %}
+
     <button type="submit" class="btn btn-success">Save</button>
     <a href="{% url 'product_list' %}" class="btn btn-secondary">Cancel</a>
   </form>

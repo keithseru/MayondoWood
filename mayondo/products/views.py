@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from .models import Product
-from .forms import ProductForm, UnitForm, CategoryForm
+from .forms import ProductForm, UnitForm, CategoryForm, ProductVariantFormSet
 
 # Create your views here.
 
@@ -28,41 +28,52 @@ def product_detail(request, pk):
 # Manager only views
 # Create product
 @user_passes_test(is_manager, login_url='login_user')
+@login_required
 def create_product(request):
     if request.method == 'POST':
         form = ProductForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Product created successfully.')
+        formset = ProductVariantFormSet(request.POST)
+        if form.is_valid() and formset.is_valid():
+            product = form.save()
+            formset.instance = product
+            formset.save()
+            messages.success(request, 'Product and variants created successfully.')
             return redirect('product_list')
     else:
         form = ProductForm()
-    context = { 
-                'form': form,
-                'title': 'Create Product',
-                'product': None 
-            }
+        formset = ProductVariantFormSet()
+
+    context = {
+        'form': form,
+        'formset': formset,
+        'title': 'Create Product',
+        'product': None
+    }
     return render(request, 'products/create_product.html', context)
 
 # Update product
 @user_passes_test(is_manager, login_url='login_user')
+@login_required
 def update_product(request, pk):
     product = get_object_or_404(Product, pk=pk)
+    formset = ProductVariantFormSet(request.POST or None, instance=product)
 
     if request.method == 'POST':
         form = ProductForm(request.POST, instance=product)
-        if form.is_valid():
+        if form.is_valid() and formset.is_valid():
             form.save()
-            messages.success(request, 'Product updated successfully.')
+            formset.save()
+            messages.success(request, 'Product and variants updated successfully.')
             return redirect('product_list')
     else:
         form = ProductForm(instance=product)
 
-    context = { 
-               'form': form,
-               'title': 'Update Product',
-               'product': product, 
-            }
+    context = {
+        'form': form,
+        'formset': formset,
+        'title': 'Update Product',
+        'product': product
+    }
     return render(request, 'products/create_product.html', context)
 
 # Create Category
