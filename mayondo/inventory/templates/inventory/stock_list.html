@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+  <h2>Stock Entries</h2>
+  <table class="table table-bordered mt-3">
+    <thead>
+      <tr>
+        <th>Variant</th>
+        <th>Quantity</th>
+        <th>Date</th>
+        <th>Entered By</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for entry in entries %}
+        <tr>
+          <td>{{ entry.variant }}</td>
+          <td>{{ entry.quantity }}</td>
+          <td>{{ entry.entry_date }}</td>
+          <td>{{ entry.entered_by }}</td>
+          <td>{{ entry.notes|default:"—" }}</td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="5">No stock entries found.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

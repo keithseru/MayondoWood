@@ -1,18 +1,27 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
-
 {% block content %}
-<h2>Create Purchase Order</h2>
-<form method="post">
+<div class="container mt-4">
+  <h2>Create Order</h2>
+  <form method="post" id="order-form">
     {% csrf_token %}
     {{ form|crispy }}
+
     <h4>Order Items</h4>
     {{ formset.management_form }}
-    {% for form in formset %}
-        <div class="card mb-2 p-3">
-            {{ form|crispy }}
+    <div id="formset-area">
+      {% for form in formset %}
+        <div class="card mb-2 p-3 formset-form">
+          {{ form|crispy }}
         </div>
-    {% endfor %}
+      {% endfor %}
+    </div>
+
+    <button type="button" id="add-item" class="btn btn-outline-secondary">Add Another Item</button>
     <button type="submit" class="btn btn-primary">Submit Order</button>
-</form>
+  </form>
+</div>
 {% endblock %}
+
+{% load static %}
+<script src="{% static 'js/scripts.js' %}"></script>

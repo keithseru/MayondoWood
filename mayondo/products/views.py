@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
-from .models import Product
+from .models import Product, Category, Unit
 from .forms import ProductForm, UnitForm, CategoryForm, ProductVariantFormSet
 
 # Create your views here.
@@ -93,6 +93,7 @@ def create_category(request):
             }
     return render(request, 'products/create_category.html', context)
 
+
 #Create Unit
 @user_passes_test(is_manager, login_url='login_user')
 def create_unit(request):
@@ -109,6 +110,18 @@ def create_unit(request):
                'title' : "Unit",
             }
     return render(request, 'products/create_category.html', context)
+
+#Product Unit and Category Lists
+@login_required
+def category_unit_list(request):
+    categories = Category.objects.all().order_by('name')
+    units = Unit.objects.all().order_by('name') 
+    context = {
+        'categories': categories,
+        'units': units,
+        'title': 'Categories and Units'
+    }
+    return render(request, 'products/category_unit_list.html', context)
 
 @user_passes_test(is_manager, login_url="login_user")
 def delete_product(request, pk):

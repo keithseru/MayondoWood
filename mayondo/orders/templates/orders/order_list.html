@@ -36,13 +36,17 @@
           <td>{{ order.received_by|default:"—" }}</td>
           <td>
             <a href="{% url 'order_detail' order.pk %}" class="btn btn-sm btn-outline-info">Details</a>
-            {% if order.status == "PENDING" and request.user.role in ["MANAGER", "INVENTORY"] %}
-              <a href="{% url 'confirm_delivery' order.pk %}" class="btn btn-sm btn-outline-success">Confirm Delivery</a>
+            {% if order.status == "PENDING" %}
+                {% if request.user.role == "MANAGER" or request.user.role == "INVENTORY" %}
+                    <a href="{% url 'confirm_delivery' order.pk %}" class="btn btn-sm btn-outline-success">Confirm Delivery</a>
+                {% endif %}
             {% endif %}
           </td>
         </tr>
       {% empty %}
-        <tr><td colspan="7" class="text-center">No orders found.</td></tr>
+        <tr>
+          <td colspan="7" class="text-center">No orders found.</td>
+        </tr>
       {% endfor %}
     </tbody>
   </table>

@@ -13,7 +13,7 @@
     {% if title == "Category" %}
       <a href="{% url 'create_product' %}" class="btn btn-secondary">Back to Products</a>
     {% elif title == "Unit" %}
-      <a href="{% url 'unit_list' %}" class="btn btn-secondary">Back to Units</a>
+      <a href="{% url 'category_unit_list' %}" class="btn btn-secondary">Back to Units</a>
     {% else %}
       <a href="{% url 'product_list' %}" class="btn btn-secondary">Back to Inventory</a>
     {% endif %}

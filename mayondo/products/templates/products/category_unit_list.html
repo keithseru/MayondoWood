@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+  <h2>Product Setup</h2>
+
+  <div class="row mt-4">
+    <div class="col-md-6">
+      <h4>Categories</h4>
+      <table class="table table-bordered table-sm">
+        <thead class="table-light">
+          <tr><th>Name</th></tr>
+        </thead>
+        <tbody>
+          {% for category in categories %}
+            <tr><td>{{ category.name }}</td></tr>
+          {% empty %}
+            <tr><td>No categories found.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="col-md-6">
+      <h4>Units</h4>
+      <table class="table table-bordered table-sm">
+        <thead class="table-light">
+          <tr><th>Name</th></tr>
+        </thead>
+        <tbody>
+          {% for unit in units %}
+            <tr><td>{{ unit.name }}</td></tr>
+          {% empty %}
+            <tr><td>No units found.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

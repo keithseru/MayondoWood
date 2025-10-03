@@ -13,7 +13,7 @@ def is_manager_or_clerk(user):
     return user.is_authenticated and user.role in ['INVENTORY', 'MANAGER']
 
 @login_required
-@user_passes_test(is_manager_or_clerk, log_url='login_user')
+@user_passes_test(is_manager_or_clerk, login_url='login_user')
 def order_list(request):
     orders = Order.objects.select_related('supplier', 'created_by', 'received_by').prefetch_related('items__variant')
     return render(request, 'orders/order_list.html', {
