@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from datetime import datetime
-from .models import Order, OrderItem
-from .forms import OrderForm, OrderItemFormSet, DeliveryFormSet
+from .models import Order, Supplier
+from .forms import OrderForm, OrderItemFormSet, DeliveryFormSet, SupplierForm
 from inventory.models import StockEntry
 
 def is_manager(user):
@@ -12,6 +12,7 @@ def is_manager(user):
 def is_manager_or_clerk(user):
     return user.is_authenticated and user.role in ['INVENTORY', 'MANAGER']
 
+# Orders
 @login_required
 @user_passes_test(is_manager_or_clerk, login_url='login_user')
 def order_list(request):
@@ -94,3 +95,60 @@ def order_detail(request, pk):
         'order': order,
         'title': f"Order #{order.id} Details"
     })
+
+# Suppliers   
+@login_required
+@user_passes_test(is_manager_or_clerk, login_url='login_user')
+def supplier_list(request):
+    suppliers = Supplier.objects.all().order_by('name')
+    return render(request, 'orders/supplier_list.html', {
+        'suppliers': suppliers,
+        'title': 'Supplier List'
+    })
+    
+@login_required
+@user_passes_test(is_manager_or_clerk, login_url='login_user')
+def create_supplier(request):
+    if request.method == 'POST':
+        form = SupplierForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Supplier added successfully.")
+            return redirect('supplier_list')
+    else:
+        form = SupplierForm()
+    return render(request, 'orders/create_supplier.html', {
+        'form': form,
+        'title': 'Add Supplier'
+    })
+    
+@login_required
+@user_passes_test(lambda u: u.role in ['INVENTORY', 'MANAGER'], login_url='login_user')
+def update_supplier(request, pk):
+    supplier = get_object_or_404(Supplier, pk=pk)
+    if request.method == 'POST':
+        form = SupplierForm(request.POST, instance=supplier)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Supplier updated successfully.")
+            return redirect('supplier_list')
+    else:
+        form = SupplierForm(instance=supplier)
+    return render(request, 'orders/update_supplier.html', {
+        'form': form,
+        'title': f"Edit Supplier: {supplier.name}"
+    })
+
+@login_required
+@user_passes_test(lambda u: u.role in ['INVENTORY', 'MANAGER'], login_url='login_user')
+def delete_supplier(request, pk):
+    supplier = get_object_or_404(Supplier, pk=pk)
+    if request.method == 'POST':
+        supplier.delete()
+        messages.success(request, "Supplier deleted.")
+        return redirect('supplier_list')
+    return render(request, 'orders/delete_supplier.html', {
+        'supplier': supplier,
+        'title': f"Delete Supplier: {supplier.name}"
+    })
+

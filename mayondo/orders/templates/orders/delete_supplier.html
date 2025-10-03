@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex">
+  {% include "includes/sidebars.html" %}
+  <div class="flex-grow-1">
+    {% include "includes/navs.html" %}
+    <div class="container mt-4">
+      <h2>{{ title }}</h2>
+      <form method="post">
+        {% csrf_token %}
+        <div class="alert alert-warning">
+          <p>Are you sure you want to permanently delete <strong>{{ supplier.name }}</strong>?</p>
+        </div>
+        <button type="submit" class="btn btn-danger">Yes, Delete</button>
+        <a href="{% url 'supplier_list' %}" class="btn btn-secondary">Cancel</a>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

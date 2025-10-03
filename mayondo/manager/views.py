@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 # Create your views here.
 # Manager Dashboard
 def manager_dashboard(request):
-    pass
+    return render(request, 'manager/dashboard.html')
 
 # Staff List
 def staff_list(request):

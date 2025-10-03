@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex">
+  {% include "includes/sidebars.html" %}
+  <div class="flex-grow-1">
+    {% include "includes/navs.html" %}
+    <div class="container mt-4">
+      <h2>Supplier List</h2>
+      <a href="{% url 'create_supplier' %}" class="btn btn-primary mb-3">Add Supplier</a>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Contact Person</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Address</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for supplier in suppliers %}
+          <tr>
+            <td>{{ supplier.name }}</td>
+            <td>{{ supplier.contact_person|default:"—" }}</td>
+            <td>{{ supplier.email|default:"—" }}</td>
+            <td>{{ supplier.phone_number|default:"—" }}</td>
+            <td>{{ supplier.address|default:"—" }}</td>
+            <td>
+              <a href="{% url 'update_supplier' supplier.pk %}" class="btn btn-sm btn-outline-secondary">Edit</a>
+              <a href="{% url 'delete_supplier' supplier.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>
+            </td>
+          </tr>
+          {% empty %}
+          <tr><td colspan="6" class="text-center">No suppliers found.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -32,3 +32,8 @@ def stock_entry_list(request):
     entries = StockEntry.objects.select_related('variant', 'entered_by').order_by('-entry_date')
     context = {'entries': entries}
     return render(request, 'inventory/stock_list.html', context)
+
+#Dashboard
+def inventory_dashboard(request):
+    return render(request, 'inventory/dashboard.html')
+

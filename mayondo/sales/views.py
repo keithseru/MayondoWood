@@ -105,6 +105,15 @@ def create_customer(request):
     
 @login_required
 @user_passes_test(is_sales_or_manager, login_url='login_user')
+def customer_list(request):
+    customers = Customer.objects.all().order_by('last_name', 'first_name')
+    return render(request, 'sales/customer_list.html', {
+        'customers': customers,
+        'title': 'Customer List'
+    })
+    
+@login_required
+@user_passes_test(is_sales_or_manager, login_url='login_user')
 def update_customer(request, pk):
     customer = get_object_or_404(Customer, pk=pk)
     if request.method == 'POST':
@@ -132,3 +141,6 @@ def delete_customer(request, pk):
         'customer': customer,
         'title': f"Delete {customer}"
     })
+    
+def sales_dashboard(request):
+    return render(request, 'sales/dashboard.html')

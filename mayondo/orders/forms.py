@@ -1,6 +1,13 @@
 from django import forms
-from .models import Order, OrderItem
+from .models import Order, OrderItem, Supplier
 from django.forms import inlineformset_factory, modelformset_factory
+
+class SupplierForm(forms.ModelForm):
+    class Meta:
+        model = Supplier
+        fields = ['name', 'contact_person', 'email', 'phone', 'address', 'notes']
+
+
 
 class OrderForm(forms.ModelForm):
     class Meta:
