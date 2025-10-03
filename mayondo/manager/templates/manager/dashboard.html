@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex">
+  {% include "includes/sidebars.html" %}
+  <div class="flex-grow-1">
+    {% include "includes/navs.html" %}
+    <div class="container mt-4">
+      <h2>Manager Dashboard</h2>
+      <p>Welcome, {{ request.user.first_name }}. Here's an overview:</p>
+
+      <div class="row">
+        <div class="col-md-4"><div class="card p-3"><h5>Total Sales</h5><p>UGX {{ total_sales }}</p></div></div>
+        <div class="col-md-4"><div class="card p-3"><h5>Stock Entries</h5><p>{{ stock_count }}</p></div></div>
+        <div class="col-md-4"><div class="card p-3"><h5>Staff Members</h5><p>{{ staff_count }}</p></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex">
+  {% include "includes/sidebars.html" %}
+  <div class="flex-grow-1">
+    {% include "includes/navs.html" %}
+    <div class="container mt-4">
+      <h2>Inventory Dashboard</h2>
+      <p>Welcome, {{ request.user.first_name }}. Here's your stock overview:</p>
+
+      <div class="row">
+        <div class="col-md-6"><div class="card p-3"><h5>Low Stock Items</h5><p>{{ low_stock_count }}</p></div></div>
+        <div class="col-md-6"><div class="card p-3"><h5>Pending Orders</h5><p>{{ pending_orders }}</p></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
