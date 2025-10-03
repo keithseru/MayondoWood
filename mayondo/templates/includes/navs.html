@@ -1,0 +1,19 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light px-3">
+  <a class="navbar-brand" href="{% url 'dashboard_router' %}">Mayondo</a>
+  <div class="collapse navbar-collapse">
+    <ul class="navbar-nav me-auto">
+      {% if request.user.role == "MANAGER" %}
+        <li class="nav-item"><a class="nav-link" href="{% url 'manager_reports' %}">Reports</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'staff_list' %}">Staff</a></li>
+      {% elif request.user.role == "SALES" %}
+        <li class="nav-item"><a class="nav-link" href="{% url 'sales_reports' %}">Reports</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'customer_list' %}">Customers</a></li>
+      {% elif request.user.role == "INVENTORY" %}
+        <li class="nav-item"><a class="nav-link" href="{% url 'inventory_reports' %}">Reports</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'supplier_list' %}">Suppliers</a></li>
+      {% endif %}
+    </ul>
+    <span class="navbar-text me-3">Role: <strong>{{ request.user.role }}</strong></span>
+    <a href="{% url 'logout_user' %}" class="btn btn-outline-danger">Logout</a>
+  </div>
+</nav>

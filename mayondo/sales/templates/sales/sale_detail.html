@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+  <h2>{{ title }}</h2>
+  <ul>
+    <li><strong>Customer:</strong> {{ sale.customer }}</li>
+    <li><strong>Date:</strong> {{ sale.sale_date|date:"M d, Y H:i" }}</li>
+    <li><strong>Created by:</strong> {{ sale.created_by }}</li>
+    <li><strong>Total Amount:</strong> {{ sale.total }}</li>
+    <li><strong>Notes:</strong> {{ sale.notes|default:"—" }}</li>
+  </ul>
+
+  <h4>Items</h4>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Product Variant</th>
+        <th>Quantity</th>
+        <th>Unit Price</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in sale.items.all %}
+      <tr>
+        <td>{{ item.product_variant }}</td>
+        <td>{{ item.quantity }}</td>
+        <td>{{ item.unit_price }}</td>
+        <td>{{ item.total_price }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

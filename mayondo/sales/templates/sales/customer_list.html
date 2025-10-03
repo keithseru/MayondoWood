@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+  <h2>Customers</h2>
+  <a href="{% url 'create_customer' %}" class="btn btn-primary mb-3">Add Customer</a>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for customer in customers %}
+      <tr>
+        <td>{{ customer.first_name }} {{ customer.last_name }}</td>
+        <td>{{ customer.email }}</td>
+        <td>{{ customer.phone_number|default:"—" }}</td>
+        <td>
+          <a href="{% url 'update_customer' customer.pk %}" class="btn btn-sm btn-outline-secondary">Edit</a>
+          <a href="{% url 'delete_customer' customer.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

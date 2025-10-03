@@ -4,6 +4,9 @@ from .forms import StockEntryForm
 from .models import StockEntry
 
 # Create your views here.
+def is_manager(user):
+    return user.is_authenticated and user.role == 'MANAGER'
+
 def is_inventory_or_manager(user):
     return user.is_authenticated and user.role in ['INVENTORY', 'MANAGER']
 

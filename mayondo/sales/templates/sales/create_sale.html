@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container mt-4">
+  <h2>Record Sale</h2>
+
+  <form method="post" id="sale-form">
+    {% csrf_token %}
+    {{ form|crispy }}
+
+    <h4>Sale Items</h4>
+    {{ formset.management_form }}
+    <div id="formset-area">
+      {% for form in formset %}
+        <div class="card mb-2 p-3 formset-form">
+          {{ form|crispy }}
+        </div>
+      {% endfor %}
+    </div>
+
+    <button type="button" id="add-item" class="btn btn-outline-secondary">Add Another Item</button>
+    <button type="submit" class="btn btn-primary">Submit Sale</button>
+  </form>
+</div>
+{% endblock %}
+
+{% load static %}
+<script src="{% static 'js/scripts.js' %}"></script>
